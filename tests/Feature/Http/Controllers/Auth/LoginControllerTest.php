@@ -3,10 +3,13 @@
 namespace Tests\Feature\Http\Controllers\Auth;
 
 use App\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
 {
+    use RefreshDatabase;
+
     /** @test */
     public function login_returns_view()
     {
