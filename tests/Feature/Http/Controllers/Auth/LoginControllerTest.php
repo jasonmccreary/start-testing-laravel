@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Http\Controllers\Auth;
 
+use App\User;
 use Tests\TestCase;
 
 class LoginControllerTest extends TestCase
@@ -22,5 +23,19 @@ class LoginControllerTest extends TestCase
 
         $response->assertStatus(302);
         $response->assertSessionHasErrors('email');
+    }
+
+    /** @test */
+    public function login_authenticates_and_redirects_user()
+    {
+        $user = factory(User::class)->create();
+
+        $response = $this->post(route('login'), [
+            'email' => $user->email,
+            'password' => 'password'
+        ]);
+
+        $response->assertRedirect(route('home'));
+        $this->assertAuthenticatedAs($user);
     }
 }
